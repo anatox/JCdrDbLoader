@@ -1,0 +1,14 @@
+Класс DirChangeListener использует библиотеку commons-vfs2-2.0.jar  для наблюдения за появившимися
+файлами в каталоге.
+Для упаковки файлов с изображениями в JAR в корне -> создаем каталог img ->  ПКМ ->  Mark directory as ->
+Resources root -> ложим туда файлы с изображениями  ->  В классе CreateTrayIcon для доступа к изображению используем
+BufferedImage bufferedImage = ImageIO.read(getClass().getResourceAsStream("/coins.png"));
+Тогда в JAR файле файлы изображений поместятся в корень, bufferedImage можно использовать для визуализации.
+
+В настройках артифакта  File -> Project Structure -> Project settings -> Artifacts   добавить артифакт
+Artifacts -> + -> Add -> JAR -> from modules with dependensies -> Main Class -> закладка Project ->
+выбираем Main класс -> OK -> OK -> галочка include in project build -> Apply -> OK
+
+Генерируем jar:  Build -> Build Artifacts
+JAR файл ложится в каталог: out/artifacts/CdrDbLoader_jar/CdrDbLoader.jar
+

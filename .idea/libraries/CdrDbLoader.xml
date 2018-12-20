@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="CdrDbLoader">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/production/CdrDbLoader/commons-vfs2-2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/production/CdrDbLoader/commons-logging-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/production/CdrDbLoader/apache-commons-net.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/production/CdrDbLoader/commons-codec-1.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/production/CdrDbLoader/ojdbc6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
