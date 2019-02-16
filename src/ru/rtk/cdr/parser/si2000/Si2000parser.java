@@ -417,9 +417,11 @@ public class Si2000parser {
                             continue;
                         }
                         if(varRecPartID == 101) {
-                            System.out.print("REC TYPE 101");
-                            offset++;
+                            int ielen = buffer[offset+1] & 0xFF; // длина информационного элемента в байтах
+                            System.out.printf(";Call accepting party number: length==%d ", ielen);
+                            offset = offset + ielen;
                             continue;
+                            //System.out.print("Call accepting party number");
                         }
                         if(varRecPartID == 102) {
                             int year  = buffer[++offset] & 0xff;
@@ -654,7 +656,45 @@ public class Si2000parser {
                             offset = offset + ielen;
                             continue;
                         }
-                        offset++; // делаем чтобы не ушёл в бесконечность
+                        if(varRecPartID == 125) {
+                            int ielen = buffer[offset+1] & 0xFF; // длина информационного элемента в байтах
+                            ielen = ielen > 0 ? ielen : 5; // Длина данного информационного элемента зафиксирована и составляет 5 байтов
+                            //System.out.printf(";VoIP Info (old): length=%d ", ielen);
+                            offset = offset + ielen;
+                            continue;
+                        }
+                        if(varRecPartID == 126) {
+                            int ielen = buffer[offset+1] & 0xFF; // длина информационного элемента в байтах
+                            ielen = ielen > 0 ? ielen : 13; // Длина данного информационного элемента зафиксирована и составляет 13 байтов
+                            //System.out.printf(";Amount of Transferred Data (old): length=%d ", ielen);
+                            offset = offset + ielen;
+                            continue;
+                        }
+                        if(varRecPartID == 127) {
+                            int ielen = buffer[offset+1] & 0xFF; // длина информационного элемента в байтах
+                            //System.out.printf(";IP Addresses: length=%d ", ielen);
+                            offset = offset + ielen;
+                            continue;
+                        }
+                        if(varRecPartID == 128) {
+                            int ielen = buffer[offset+1] & 0xFF; // длина информационного элемента в байтах
+                            ielen = ielen > 0 ? ielen : 13; // Длина данного информационного элемента зафиксирована и составляет 13 байтов
+                            //System.out.printf(";VoIP Info: length==%d ", ielen);
+                            offset = offset + ielen;
+                            continue;
+                        }
+                        if(varRecPartID == 129) {
+                            int ielen = buffer[offset+1] & 0xFF; // длина информационного элемента в байтах
+                            ielen = ielen > 0 ? ielen : 25; // Длина данного информационного элемента зафиксирована и составляет 25 байтов
+                            //System.out.printf(";Amount of Transferred Data: length=%d ", ielen);
+                            offset = offset + ielen;
+                            continue;
+                        }
+                        // пытаемся перескочить неизвестный элемент
+                        int ielen = buffer[offset+1] & 0xFF; // длина информационного элемента в байтах
+                        ielen = ielen > 0 ? ielen : 1; // делаем чтобы не ушёл в бесконечность
+                        System.out.printf(";UNKNOWN PART ID %d: length=%d ", varRecPartID, ielen);
+                        offset = offset + ielen;
                     }
 
                     System.out.println(); // конец записи типа 200
