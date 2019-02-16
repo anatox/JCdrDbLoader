@@ -602,6 +602,7 @@ public class Si2000parser {
                         }
                         if(varRecPartID == 117) {
                             int ielen = buffer[offset+1] & 0xFF; // длина информационного элемента в байтах
+                            ielen = ielen > 0 ? ielen : 10; // Длина данного информационного элемента зафиксирована и составляет 10 байтов
                             //System.out.printf(";Business and Centrex Group ID: length=%d ", ielen);
                             offset = offset + ielen;
                             continue;
@@ -620,30 +621,35 @@ public class Si2000parser {
                         }
                         if(varRecPartID == 120) {
                             int ielen = buffer[offset+1] & 0xFF; // длина информационного элемента в байтах
+                            ielen = ielen > 0 ? ielen : 15; // Длина данного информационного элемента зафиксирована и составляет 15 байтов
                             //System.out.printf(";Prepaid Account Recharge Data: length=%d ", ielen);
                             offset = offset + ielen;
                             continue;
                         }
                         if(varRecPartID == 121) {
                             int ielen = buffer[offset+1] & 0xFF; // длина информационного элемента в байтах
+                            ielen = ielen > 0 ? ielen : 5; // Длина данного информационного элемента зафиксирована и составляет 5 байтов
                             //System.out.printf(";Call Release Cause: length=%d ", ielen);
                             offset = offset + ielen;
                             continue;
                         }
                         if(varRecPartID == 122) {
                             int ielen = buffer[offset+1] & 0xFF; // длина информационного элемента в байтах
+                            ielen = ielen > 0 ? ielen : 5; // Длина данного информационного элемента зафиксирована и составляет 5 байтов
                             System.out.printf(";Charge Band Number: length=%d ", ielen);
                             offset = offset + ielen;
                             continue;
                         }
                         if(varRecPartID == 123) {
                             int ielen = buffer[offset+1] & 0xFF; // длина информационного элемента в байтах
+                            ielen = ielen > 0 ? ielen : 6; // Длина данного информационного элемента зафиксирована и составляет 6 байтов
                             //System.out.printf(";Common Call ID: length=%d ", ielen);
                             offset = offset + ielen;
                             continue;
                         }
                         if(varRecPartID == 124) {
                             int ielen = buffer[offset+1] & 0xFF; // длина информационного элемента в байтах
+                            ielen = ielen > 0 ? ielen : 10; // Длина данного информационного элемента зафиксирована и составляет 10 байтов
                             //System.out.printf(";Durations before Answer: length=%d ", ielen);
                             offset = offset + ielen;
                             continue;
