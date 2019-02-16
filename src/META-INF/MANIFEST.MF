@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Class-Path: commons-codec-1.10.jar commons-vfs2-2.0.jar commons-loggin
+ g-1.1.jar apache-commons-net.jar ojdbc6.jar mssql-jdbc-7.2.1.jre8.jar
+Main-Class: ru.rtk.gui.Main
+
