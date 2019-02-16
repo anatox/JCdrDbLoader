@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.DriverManager;
 
 import oracle.jdbc.pool.OracleDataSource;
 import ru.rtk.file.handler.GlobalArgs;
@@ -15,10 +16,10 @@ public class CdrToDbLoader {
     Statement stmt = null;
 
     public CdrToDbLoader(){
-        checkdbconn();
+        checkdbconnUser();
     }
 
-    void checkdbconn()
+    void checkdbconnOracle()
     {
         String jdbcUrl = "jdbc:oracle:thin:" +
                 GlobalArgs.dblogin + "/" +
@@ -64,6 +65,68 @@ public class CdrToDbLoader {
             }
             rset = null;
             stmt = null;
+        }
+    }
+
+    void checkdbconnMsSql()
+    {
+        String jdbcUrl =
+                "jdbc:sqlserver://" + GlobalArgs.rdbmsip + (GlobalArgs.rdbmsip.contains(":") ? "" : ":1433") + ";" +
+                "database=" + GlobalArgs.dbsid + ";" +
+                "user=" + GlobalArgs.dblogin + ";" +
+                "password=" + GlobalArgs.dbpassword + ";" +
+//                "encrypt=true;" +
+//                "trustServerCertificate=false;" +
+                "loginTimeout=30;";
+        Statement stmt = null;
+        ResultSet rset = null;
+        try
+        {
+            conn = DriverManager.getConnection(jdbcUrl);
+            conn.setAutoCommit (false);
+            stmt = conn.createStatement ();
+            rset = stmt.executeQuery ("select 'Hello World'");
+            int c = 0;
+            while (rset.next ())
+            {
+                c++;
+            }
+            if(c > 0)
+                System.out.println (GlobalArgs.curdate() + "-->соединение с базой данных установлено");
+            rset.close();
+            stmt.close();
+            rset = null;
+            stmt = null;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            if (rset != null)
+            {
+                try { rset.close(); } catch (Exception e) {e.printStackTrace();}
+            }
+            if (stmt != null)
+            {
+                try { stmt.close(); } catch (Exception e) {e.printStackTrace();}
+            }
+            rset = null;
+            stmt = null;
+        }
+    }
+
+    void checkdbconnUser()
+    {
+        switch (GlobalArgs.jdbcdriver)
+        {
+            case ORACLE:
+                checkdbconnOracle();
+                break;
+            case MSSQL:
+                checkdbconnMsSql();
+                break;
         }
     }
 

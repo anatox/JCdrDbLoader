@@ -1,6 +1,7 @@
 package ru.rtk.gui;
 
 import ru.rtk.file.handler.GlobalArgs;
+import ru.rtk.file.handler.JdbcDriverType;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -27,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class SettingsAction extends JFrame {
+    private JComboBox jdbcdriver;
     private JTextField verbose;
     private JTextField dbsid;
     private JTextField rdbmsip;
@@ -133,6 +135,13 @@ public class SettingsAction extends JFrame {
         });
         content.add(ATScombo, new GridBagConstraints(1,7,1,1,0.2,0,
                 GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(1,1,1,1),0,0));
+
+        content.add(new JLabel("Driver"), new GridBagConstraints(0,8,1,1,0,0,
+                GridBagConstraints.NORTH,GridBagConstraints.HORIZONTAL, new Insets(2,2,2,2),0,0));
+        jdbcdriver = new JComboBox(JdbcDriverType.values());
+        content.add(jdbcdriver, new GridBagConstraints(1,8,1,1,0.2,0,
+                GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(1,1,1,1),0,0));
+
         getContentPane().add(content, BorderLayout.NORTH);
 
         okButton = new JButton("OK");
@@ -148,6 +157,7 @@ public class SettingsAction extends JFrame {
                 mySettings.setProperty("dbpassword", dbpassword.getText());
                 mySettings.setProperty("pathfolder", pathFolder.getText());
                 mySettings.setProperty("typeats", ATScombo.getSelectedItem().toString());
+                mySettings.setProperty("jdbcdriver", jdbcdriver.getSelectedItem().toString());
                 FileOutputStream out;
 
                 if(verbose.getText().equals("true")) GlobalArgs.verb = true; else GlobalArgs.verb = false;
@@ -157,6 +167,7 @@ public class SettingsAction extends JFrame {
                 GlobalArgs.dbpassword = dbpassword.getText();
                 GlobalArgs.pathFolder = pathFolder.getText();
                 GlobalArgs.typeATS = ATScombo.getSelectedItem().toString();
+                GlobalArgs.jdbcdriver = (JdbcDriverType)jdbcdriver.getSelectedItem();
                 try {
                     out = new FileOutputStream("mysettings.ini");
                     mySettings.store(out, null);
@@ -208,6 +219,8 @@ public class SettingsAction extends JFrame {
             pathFolder.setText(mySettings.getProperty("pathfolder","none"));
 
             ATScombo.setSelectedItem(mySettings.getProperty("typeats","AXE10"));
+
+            jdbcdriver.setSelectedItem(JdbcDriverType.valueOf(mySettings.getProperty("jdbcdriver","ORACLE")));
         } else {
             verbose.setText("none");
             dbsid.setText("none");

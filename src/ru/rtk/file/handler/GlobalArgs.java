@@ -23,6 +23,7 @@ public class GlobalArgs {
     Properties mySettings;
     File f = null;
 
+    public static JdbcDriverType jdbcdriver = JdbcDriverType.ORACLE;
     public static boolean progress = false;
     public static String filename = null;
     public static String dirname = null;
@@ -69,6 +70,7 @@ public class GlobalArgs {
         pathFolder = mySettings.getProperty("pathfolder");
         pathDstFolder = mySettings.getProperty("pathdstfolder");
         typeATS = mySettings.getProperty("typeats");
+        jdbcdriver = JdbcDriverType.valueOf(mySettings.getProperty("jdbcdriver","ORACLE"));
         System.out.println("dbsid=" + dbsid);
     }
 
